@@ -136,9 +136,30 @@ function updateUser(req, res){
 	});
 }
 
+//Subir imagen
+function uploadImage(req, res){
+	var userId = req.params.id;
+	var file_name = 'No subido...';
+
+	//Con el connect-multiparty (declarada en userRoutes)
+	//Podemos utilizar las variables globales como files
+	if(req.files){
+		var file_path = req.files.image.path;
+		var file_split = file_path.split('\\');
+		var file_name = file_split[2];
+
+		console.log(file_split);
+	}else{
+		res.status(200).send({
+			message: 'No has subido ninguna imagen ...'
+		});		
+	}
+}
+
 module.exports =  {
 	pruebas,
 	saveUser,
 	loginUser,
-	updateUser
+	updateUser,
+	uploadImage
 };

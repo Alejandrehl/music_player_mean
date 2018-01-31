@@ -5,8 +5,11 @@ var UserController = require('../controllers/userController');
 
 var api = express.Router();
 
-api.get('/probando-controlador', UserController.pruebas);
+var md_auth = require('../middlewares/authenticated');
+
+api.get('/probando-controlador', md_auth.ensureAuth, UserController.pruebas);
 api.post('/register', UserController.saveUser);
 api.post('/login', UserController.loginUser);
+api.put('/update-user/:id', md_auth.ensureAuth, UserController.updateUser);
 
 module.exports = api;

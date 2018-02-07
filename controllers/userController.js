@@ -2,6 +2,8 @@
 var bcrypt = require('bcrypt-nodejs');
 var User = require('../models/user');
 var jwt = require('../services/jwt');
+var fs = require('fs');
+var path = require('path');
 
 //metodo para probar funcionalidad
 //la request es lo que va a recibir en la petición
@@ -182,10 +184,27 @@ function uploadImage(req, res){
 	}
 }
 
+//Obtener imagen de usuario
+function getImageFile(req, res){
+	var imageFile = req.params.imageFile;
+	var path_file = './uploads/users/'+imageFile;
+
+	fs.exists(path_file, function(exists){
+		if(exists){
+			res.status(200).sendFile(path.resolve(path_file));	
+		}else{
+			res.status(200).send({
+				message: 'No existe la imagen ...'
+			});	
+		}
+	});
+}
+
 module.exports =  {
 	pruebas,
 	saveUser,
 	loginUser,
 	updateUser,
-	uploadImage
+	uploadImage,
+	getImageFile
 };

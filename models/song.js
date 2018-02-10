@@ -2,7 +2,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var SongSchema({
+var SongSchema = Schema({
 	number: String,
 	name: String,
 	duration: String,

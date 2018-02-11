@@ -9,6 +9,7 @@ var app = express();
 //Cargar rutas
 var user_routes = require('./routes/userRoutes');
 var artist_routes = require('./routes/artistRoutes');
+var album_routes = require('./routes/albumRoutes');
 
 //Configurar body parser. Convierten las peticiones que nos llegan por http en objetos JSON.
 app.use(bodyParser.urlencoded({
@@ -21,6 +22,7 @@ app.use(bodyParser.json());
 //Cargar rutas base
 app.use('/api', user_routes); //incluir middleware /api
 app.use('/api', artist_routes);
+app.use('/api', album_routes);
 
 //Ruta de prueba
 app.get('/pruebas', function(req, res) {

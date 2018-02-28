@@ -20,7 +20,11 @@ export class AppComponent implements OnInit{
 
   //Metodo para cargar metodos o lo que sea al refrescar la página
   public ngOnInit(){
+    this.identity = this._userService.getIdentity();
+    this.token = this._userService.getToken();
 
+    console.log(this.identity);
+    console.log(this.token);
   }
 
   public onSubmit(){
@@ -36,6 +40,7 @@ export class AppComponent implements OnInit{
         alert('El usuario no esta correctamente identificado');
       }else{
         //Crear elemento en el localstorage para tener al usuario en sesión
+        localStorage.setItem('identity', JSON.stringify(identity));
 
         //Conseguir el token para enviarselo a cada petición http
           this._userService.signup(this.user, 'true').subscribe(response => {
@@ -47,7 +52,8 @@ export class AppComponent implements OnInit{
               alert('El token no se ha generado');
             }else{
               //Crear elemento en el localstorage para tener token disponibel
-              
+              localStorage.setItem('token', token);
+
               console.log(token);
               console.log(identity);
             }
@@ -72,6 +78,18 @@ export class AppComponent implements OnInit{
         console.log(error);
       }
     });
+  }
+
+  logout(){
+    localStorage.removeItem('identity');
+    localStorage.removeItem('token');
+
+    //Esto hace un session destroy global - Elimina todo lo que hay en el localStorage
+    localStorage.clear();
+
+    //Para que al cerrar sesión nos muestre denuevo el registro y el login se debe realizar lo siguiente:
+    this.identity = null;
+    this.token = null;
   }
 
 }
